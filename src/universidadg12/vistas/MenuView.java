@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package universidadg12.vistas;
+package universidadg1.vistas;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;

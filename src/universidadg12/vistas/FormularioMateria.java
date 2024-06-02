@@ -2,13 +2,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JInternalFrame.java to edit this template
  */
-package universidadg12.vistas;
+package universidadg1.vistas;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
 import javax.swing.JOptionPane;
-import universidadg12.accesoadatos.MateriaData;
-import universidadg12.entidades.Materia;
+import universidadg1.accesoadatos.MateriaData;
+import universidadg1.entidades.Materia;
 
 /**
  *

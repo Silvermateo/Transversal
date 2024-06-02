@@ -2,18 +2,18 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JInternalFrame.java to edit this template
  */
-package universidadg12.vistas;
+package universidadg1.vistas;
 
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import universidadg12.accesoadatos.AlumnoData;
-import universidadg12.accesoadatos.InscripcionData;
-import universidadg12.accesoadatos.MateriaData;
-import universidadg12.entidades.Alumno;
-import universidadg12.entidades.Inscripcion;
-import universidadg12.entidades.Materia;
+import universidadg1.accesoadatos.AlumnoData;
+import universidadg1.accesoadatos.InscripcionData;
+import universidadg1.accesoadatos.MateriaData;
+import universidadg1.entidades.Alumno;
+import universidadg1.entidades.Inscripcion;
+import universidadg1.entidades.Materia;
 
 /**
  *

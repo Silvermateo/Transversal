@@ -1,4 +1,4 @@
-package universidadg12.accesoadatos;
+package universidadg12.accesoadatos.accesoadatos;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -9,7 +9,7 @@ import javax.swing.JOptionPane;
 
 public class Conexion {
 
-    private static final String URL = "jdbc:mariadb://localhost:3306/tp13";
+    private static final String URL = "jdbc:mariadb://localhost:3306/tp13_ulp";
     private static final String USUARIO = "root";
     private static  String PASSWORD = "";
     private static Connection conexion;

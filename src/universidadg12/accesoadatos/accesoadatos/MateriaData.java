@@ -1,5 +1,5 @@
 
-package universidadg12.accesoadatos;
+package universidadg12.accesoadatos.accesoadatos;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import universidadg12.entidades.Materia;
+import universidadg12.entidades.entidades.Materia;
 
 
 public class MateriaData {
@@ -21,7 +21,7 @@ public class MateriaData {
         
         String sql ="INSERT INTO `materia`(`nombre`, `año`, `estado`)"
                 + "VALUES(?,?,?)";
-
+        
         try {
             PreparedStatement ps = con.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, materia.getNombre());
@@ -36,39 +36,64 @@ public class MateriaData {
             }
             
         } catch (SQLException ex) {
-            Logger.getLogger(MateriaData.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Error en tabla Materia");
         }
     }
     
-    
-    
-   public void actualizarMateria(Materia materia) {
-        String query = "UPDATE materia SET nombre = ?, año = ?, estado = ? WHERE idMateria = ?";
+    public Materia buscarMateria(int id) {
+        // CÃƒÂ³digo para buscar una materia por ID en la base de datos
+        String sql ="SELECT nombre, año, estado FROM materia WHERE idMateria = ?";
+        Materia materia = null;
         
         try {
-            PreparedStatement preparedStatement = con.prepareStatement(query);
-            preparedStatement.setString(1, materia.getNombre());
-            preparedStatement.setInt(2, materia.getAnioMateria());
-            preparedStatement.setBoolean(3, materia.isActivo());
-            preparedStatement.setInt(4, materia.getIdMateria());
-            preparedStatement.executeUpdate();
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, id);          
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()){
+                materia = new Materia();
+                materia.setIdMateria(id);
+                materia.setNombre(rs.getString("nombre"));
+                materia.setAnioMateria(rs.getInt("año"));
+                materia.setActivo(true);
+            }else{
+                JOptionPane.showMessageDialog(null, "No existe una materia con ese ID");
+            }
+            ps.close();
             
-            preparedStatement.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al acceder a la tabla Materia");
+        }
+        return materia;
+    }
+    
+    public void modificarMateria(Materia materia) {
+        // CÃƒÂ³digo para actualizar una materia en la base de datos
+        try {
             
+            String sql = "UPDATE materia SET nombre = ?, año = ?, estado = ? WHERE idMateria = ?";
+            PreparedStatement ps = con.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
+            ps.setString(1, materia.getNombre());
+            ps.setInt(2, materia.getAnioMateria());
+            ps.setBoolean(3, materia.isActivo());
+            ps.setInt(4,materia.getIdMateria());
+            ps.executeUpdate();
+            
+            JOptionPane.showMessageDialog(null, "Materia actualizada con exito");
+            
+            ps.close();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error en la tabla Materia!");
         }
     }
-
     
- public void eliminarMateria(int idMateria) {
+   public void eliminarMateria(int idMateria) {
         String query = "UPDATE materia SET estado = 0 WHERE idMateria = ?";
         
         try {
             PreparedStatement preparedStatement = con.prepareStatement(query);
             preparedStatement.setInt(1, idMateria);
             preparedStatement.executeUpdate();
-            JOptionPane.showMessageDialog(null, "materia eliminada logicamente");
+            
             preparedStatement.close();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -76,76 +101,37 @@ public class MateriaData {
             
         }
     }
-    
-    
-    
-    
-    
-      public Materia buscarMateriaPorId(int idMateria) {
-        Materia materia = null;
-        String query = "SELECT * FROM materia WHERE idMateria = ? AND estado = 1";
-        
-        try {
-            PreparedStatement preparedStatement = con.prepareStatement(query);
-            preparedStatement.setInt(1, idMateria);
-            
-            ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
-                String nombre = resultSet.getString("nombre");                
-                int año = resultSet.getInt("año");
-                boolean estado = resultSet.getBoolean("estado");
-
-                materia = new Materia();
-                materia.setIdMateria(idMateria);
-                materia.setNombre(nombre);
-                materia.setAnioMateria(año);
-                materia.setActivo(estado);
-            }
-            
-            resultSet.close();
-            preparedStatement.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        
-        return materia;
-    }
-
-    
-    public List<Materia> obtenerMateriasActivas() {
+   
+   public List<Materia> listarMaterias() {
         List<Materia> materiasActivas = new ArrayList<>();
-        String query = "SELECT * FROM materia WHERE estado = 1";
+        String query = "SELECT alumno.idAlumno, alumno.nombre, materia.nombre FROM inscripcion JOIN alumno ON inscripcion.idAlumno = alumno.idAlumno JOIN materia ON inscripcion.idMateria = materia.idMateria WHERE alumno.idAlumno = ?;";
         
-        try {
-            PreparedStatement preparedStatement = con.prepareStatement(query);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            
-            while (resultSet.next()) {
-                int idMateria = resultSet.getInt("idMateria");
-                String nombre = resultSet.getString("nombre");
-                int año = resultSet.getInt("año");
-                boolean activo = resultSet.getBoolean("estado");
+            try {
+        PreparedStatement ps = con.prepareStatement(query);
+        ResultSet resultSet = ps.executeQuery();
 
-                Materia materia = new Materia();
-                materia.setIdMateria(idMateria);
-                materia.setNombre(nombre);
-                materia.setAnioMateria(año);
-                materia.setActivo(activo);
-                
-                materiasActivas.add(materia);
-            }            
-            resultSet.close();
-            preparedStatement.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-                        JOptionPane.showMessageDialog(null, "No se pudo mostrar la losta, fijate que onda", "Error", JOptionPane.ERROR_MESSAGE);
-        }
-        
-        return materiasActivas;
+        while (resultSet.next()) {
+            int idMateria = resultSet.getInt("idMateria");
+            String nombre = resultSet.getString("nombre");
+            int año = resultSet.getInt("año");
+            boolean activo = resultSet.getBoolean("estado");
+
+            Materia materia = new Materia();
+            materia.setIdMateria(idMateria);
+            materia.setNombre(nombre);
+            materia.setAnioMateria(año);
+            materia.setActivo(activo);
+
+            materiasActivas.add(materia);
+        }            
+        resultSet.close();
+        ps.close();
+    } catch (SQLException e) {
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(null, "No se pudo mostrar la lista, fijate que onda", "Error", JOptionPane.ERROR_MESSAGE);
     }
 
-    public Iterable<Materia> listarMaterias() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    return materiasActivas;
+}
     
 }

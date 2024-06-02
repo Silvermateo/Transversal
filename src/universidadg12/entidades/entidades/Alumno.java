@@ -1,5 +1,5 @@
 
-package universidadg12.entidades;
+package universidadg12.entidades.entidades;
 
 import java.time.LocalDate;
 

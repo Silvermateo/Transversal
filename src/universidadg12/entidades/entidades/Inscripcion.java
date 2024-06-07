@@ -34,12 +34,7 @@ public class Inscripcion {
     public Inscripcion(Alumno a, Materia m, int i) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
-    public Inscripcion(Alumno a, Materia m, int i) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
     
-
     public int getIdInscripcion() {
         return idInscripcion;
     }
